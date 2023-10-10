@@ -4,6 +4,7 @@ import com.example.md3_finalexam.model.Department;
 import com.example.md3_finalexam.model.Staff;
 import com.example.md3_finalexam.ultil.ConnectionUtil;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -66,6 +67,44 @@ public class StaffService extends ConnectionUtil {
         }
         return staffList;
     }
+    public Staff convert (ResultSet mResultSet) throws SQLException {
+        Staff staff = new Staff();
+        staff.setId(mResultSet.getInt("id"));
+        staff.setName(mResultSet.getString("name"));
+        staff.setAddress(mResultSet.getString("address"));
+        staff.setPhoneNumber(mResultSet.getString("phoneNumber"));
+        staff.setSalary(mResultSet.getFloat("salary"));
+        Department department = new Department();
+        department.setId(mResultSet.getInt("departmentID"));
+        try {
+            department.setName(mResultSet.getString("department.name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        staff.setDepartment(department);
+        return staff;
+    }
+    public List<Staff> findAllToSearch(String searchStaff) {
+            List<Staff> staffList = new ArrayList<>();
+            String sql = "Select * " +
+                    "from staff join department on staff.departmentID = department.id " +
+                    "where staff.name like ? ";
+
+            try {
+                open();
+                mPreparedStatement = mConnection.prepareStatement(sql);
+                mPreparedStatement.setString(1, "%" + searchStaff + "%");
+                mResultSet = mPreparedStatement.executeQuery();
+                while (mResultSet.next()) {
+                    Staff staff = convert(mResultSet);
+                    staffList.add(staff);
+                }
+                close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return staffList;
+        }
 
     public void insert (Staff staff) {
         String sql = "INSERT INTO staff ( `name`, address, phoneNumber, salary, departmentID) VALUES (?, ? , ? , ? , ?)";

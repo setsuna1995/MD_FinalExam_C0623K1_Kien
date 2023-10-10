@@ -38,11 +38,18 @@ public class StaffServlet extends HttpServlet {
             case "create":
                 createStaffForm(req, resp);
                 break;
+            case "find":
+                findByNameForm(req, resp);
             default:
                 listStaff(req, resp);
                 break;
         }
 
+    }
+
+    private void findByNameForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("staff/find.jsp");
+            requestDispatcher.forward(req, resp);
     }
 
     private void createStaffForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -85,9 +92,19 @@ public class StaffServlet extends HttpServlet {
             case "create":
                 createStaff(req, resp);
                 break;
+            case "find":
+                findByName(req, resp);
             default:
                 break;
         }
+    }
+
+    private void findByName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String searchStaff = req.getParameter("searchStaff");
+        List<Staff> staffList = staffService.findAllToSearch(searchStaff);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("staff/list.jsp");
+        req.setAttribute("staffs", staffList);
+        requestDispatcher.forward(req, resp);
     }
 
     private void createStaff(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

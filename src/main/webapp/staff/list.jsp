@@ -27,6 +27,7 @@
 </head>
 <body>
 <a STYLE="text-align: center" href="staff-servlet?action=create">CREATE</a>
+<a STYLE="text-align: center" href="staff-servlet?action=find">FIND</a>
 <table class="table">
     <thead class="thead-light">
     <tr>
