@@ -2,6 +2,7 @@ package com.example.md3_finalexam.controller;
 
 import com.example.md3_finalexam.model.Department;
 import com.example.md3_finalexam.model.Staff;
+import com.example.md3_finalexam.service.DepartmentService;
 import com.example.md3_finalexam.service.StaffService;
 
 import javax.servlet.RequestDispatcher;
@@ -17,6 +18,7 @@ import java.util.List;
 @WebServlet(name = "staffServlet", urlPatterns = "/staff-servlet")
 public class StaffServlet extends HttpServlet {
     StaffService staffService = new StaffService();
+    DepartmentService departmentService = new DepartmentService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -72,6 +74,11 @@ public class StaffServlet extends HttpServlet {
 
     private void editStaffForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("staff/edit.jsp");
+        int id = Integer.parseInt(req.getParameter("id"));
+        List<Department> departments = departmentService.findAll();
+        req.setAttribute("departments", departments);
+        Staff staff = staffService.findByID(id);
+        req.setAttribute("staffs", staff);
         requestDispatcher.forward(req, resp);
     }
 

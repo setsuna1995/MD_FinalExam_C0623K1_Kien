@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StaffService extends ConnectionUtil {
+    DepartmentService departmentService = new DepartmentService();
     public boolean deleteStaff(int id) throws SQLException {
         boolean rowDeleted = false;
         String DELETE_USERS_SQL = "delete from staff where id = ?;";
@@ -105,7 +106,28 @@ public class StaffService extends ConnectionUtil {
             }
             return staffList;
         }
+    public Staff findByID(int id) {
+        Staff staff = new Staff();
+        String sql = "Select * " +
+                "from staff join department on staff.departmentID = department.id " +
+                "where staff.id = ? ";
 
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setInt(1, id);
+            mResultSet = mPreparedStatement.executeQuery();
+            while (mResultSet.next()) {
+                staff = convert(mResultSet);
+            }
+            close();
+            Department department = departmentService.findByID(staff.getDepartment().getId());
+            staff.setDepartment(department);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return staff;
+    }
     public void insert (Staff staff) {
         String sql = "INSERT INTO staff ( `name`, address, phoneNumber, salary, departmentID) VALUES (?, ? , ? , ? , ?)";
 

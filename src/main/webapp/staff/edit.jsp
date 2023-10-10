@@ -18,25 +18,27 @@
         <label for="exampleInputName">Name</label>
         <br>
         <input type="text" class="form-control" id="exampleInputName" name="name" placeholder="Enter name"
-               value="${staff.name}">
+               value="${staffs.name}">
     </div>
     <div class="form-group" style="margin: 20px">
         <label for="exampleInputAddress">Address</label><br>
-        <input type="text" class="form-control" id="exampleInputAddress" name="address" placeholder="Enter address">
+        <input type="text" class="form-control" id="exampleInputAddress" name="address" placeholder="Enter address"
+               value="${staffs.address}">
     </div>
     <div class="form-group" style="margin: 20px">
         <label for="exampleInputPhoneNumber">Phone Number</label><br>
         <input type="text" class="form-control" id="exampleInputPhoneNumber" aria-describedby="emailHelp"
-               placeholder="Enter phone number">
+               placeholder="Enter phone number" value="${staffs.phoneNumber}">
     </div>
     <div class="form-group" style="margin: 20px">
         <label for="exampleInputSalary">Salary</label><br>
-        <input type="text" class="form-control" id="exampleInputSalary" name="salary" placeholder="Enter salary">
+        <input type="text" class="form-control" id="exampleInputSalary" name="salary" placeholder="Enter salary"
+               value="${staffs.salary}">
     </div>
     <div class="form-group" style="margin: 20px">
         <label for="exampleInputDepartmentID">Department</label><br>
         <input type="text" class="form-control" id="exampleInputDepartmentID" aria-describedby="emailHelp"
-               name="departmentID" placeholder="Enter department id">
+               name="departmentID" placeholder="Enter department id" value="${staffs.department.id}">
     </div>
     <button type="submit" class="btn btn-primary" style="margin: auto">Submit</button>
 </form>
